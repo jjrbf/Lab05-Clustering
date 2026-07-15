@@ -3,6 +3,7 @@ import json
 import pandas as pd
 import plotly.express as px
 from sklearn.cluster import KMeans
+from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
@@ -49,14 +50,18 @@ algo= st.sidebar.selectbox('Algorithm', ["Kmeans","DBSCAN"])
 if algo == "Kmeans":
     k = st.sidebar.slider("Number of Clusters",2,10)
 elif algo == "DBSCAN":
-    st.write("STUDENTS, ADD DBSCAN parameters")
+    # st.write("STUDENTS, ADD DBSCAN parameters")
+    e = st.sidebar.slider("EPS",0.1,2.0)
+    s = st.sidebar.slider("Min Samples",2,10)
 
 labels = []
 if algo == "Kmeans":
     model = KMeans(n_clusters=k)
     labels = model.fit_predict(X_scaled)
 elif algo == "DBSCAN":
-    st.write("STUDENTS, ADD DB SCAN")
+    # st.write("STUDENTS, ADD DB SCAN")
+    model = DBSCAN(eps=e,min_samples=s)
+    labels = model.fit_predict(X_scaled)
 
 # Catch error if no labels do not continue
 if  len(labels) ==0 : 
